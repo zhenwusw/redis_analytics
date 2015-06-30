@@ -26,12 +26,12 @@ module RedisAnalytics
       return false unless @response.ok?
       return false unless @response.content_type =~ /^text\/html/
       RedisAnalytics.path_filters.each do |filter|
-        return false if filter.matches?(@request.path)
+        return true if filter.matches?(@request.path)
       end
       RedisAnalytics.filters.each do |filter|
-        return false if filter.matches?(@request, @response)
+        return true if filter.matches?(@request, @response)
       end
-      return true
+      return false
     end
 
     def record
